@@ -6,23 +6,45 @@ import ProductList from '../components/ProductList';
 const Main = () => {
 
     const [message, setMessage] = useState("Loading...")
-    const [refresh, setRefresh] = useState(false)
+    const [products, setProducts] = useState([])
+    const [loaded, setLoaded] = useState(false);
+
+
+    useEffect(() => {
+        axios.get('http://localhost:8000/api/products')
+            .then(res => {
+                setProducts(res.data.products)
+                // console.log(res.data.products);
+                setLoaded(true);
+                // console.log(res.data);
+            })
+            .catch(err => console.log(err))
+    }, [])
+
+    const deleteProduct = (deleteId) => {
+        // console.log(deleteId);
+        axios.delete("http://localhost:8000/api/products/delete/" + deleteId)
+          .then(res => {
+            console.log(res.data);
+            console.log("SUCCESS DELETE!");
+            // remove from DOM after delete success
+            setProducts(products.filter((product) => product._id !== deleteId))
+          })
+          .catch(err => console.log(err))
+      }
 
     useEffect(() => {
         axios.get("http://localhost:8000/api")
             .then(res => setMessage(res.data.message))
     }, []);
 
-    const reloadPage = () => {
-        setRefresh(!refresh)
-        console.log(refresh)
-    }
+
 
     return (
         <div>
-            <ProductForm reloadPage={reloadPage}/>
+            <ProductForm products={products} />
             <hr />
-            <ProductList refresh={refresh}/>
+            <ProductList products={products} deleteProduct={deleteProduct} />
         </div>
     )
 

@@ -4,33 +4,32 @@ import { Link } from "react-router-dom"
 
 const ProductList = (props) => {
 
-  const [products, setProducts] = useState([])
-  const [loaded, setLoaded] = useState(false);
+  const {products, deleteProduct} = props
 
-  const { refresh } = props
+  // const [loaded, setLoaded] = useState(false);
 
-  useEffect(() => {
-    axios.get('http://localhost:8000/api/products')
-      .then(res => {
-        setProducts(res.data.products)
-        // console.log(res.data.products);
-        setLoaded(true);
-        // console.log(res.data);
-      })
-      .catch(err => console.log(err))
-  }, [refresh])
+  // useEffect(() => {
+  //   axios.get('http://localhost:8000/api/products')
+  //     .then(res => {
+  //       setProducts(res.data.products)
+  //       // console.log(res.data.products);
+  //       setLoaded(true);
+  //       // console.log(res.data);
+  //     })
+  //     .catch(err => console.log(err))
+  // }, [])
 
-  const deleteProduct = (deleteId) => {
-    // console.log(deleteId);
-    axios.delete("http://localhost:8000/api/products/delete/" + deleteId)
-      .then(res => {
-        console.log(res.data);
-        console.log("SUCCESS DELETE!");
-        // remove from DOM after delete success
-        setProducts(products.filter((product) => product._id !== deleteId))
-      })
-      .catch(err => console.log(err))
-  }
+  // const deleteProduct = (deleteId) => {
+  //   // console.log(deleteId);
+  //   axios.delete("http://localhost:8000/api/products/delete/" + deleteId)
+  //     .then(res => {
+  //       console.log(res.data);
+  //       console.log("SUCCESS DELETE!");
+  //       // remove from DOM after delete success
+  //       setProducts(products.filter((product) => product._id !== deleteId))
+  //     })
+  //     .catch(err => console.log(err))
+  // }
 
   // {JSON.stringify(products)}
   return (

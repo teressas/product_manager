@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import axios from 'axios';
 
+
 const ProductForm = (props) => {
+
+    const { products, setProducts } = props
+    
 
     const [formState, setFormState] = useState({
         title: "",
@@ -15,8 +19,6 @@ const ProductForm = (props) => {
 
     const [errForm, setErrForm] = useState({})
     const [hasBeenSubmitted, setHasBeenSubmitted] = useState(false)
-
-    const {reloadList} = props
 
     const changeHandler = (e) => {
         let { name, value } = e.target
@@ -80,8 +82,10 @@ const ProductForm = (props) => {
             .then(res => {
                 console.log(res)
                 setFormState(...formState)
-                // console.log(setFormState)
-                reloadList()
+                
+                setProducts([...products, res.data.result])
+                console.log(setFormState)
+                
             })
             .catch(err => console.log(err))
     }
